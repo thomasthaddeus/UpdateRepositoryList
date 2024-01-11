@@ -1,0 +1,28 @@
+{
+  "name": "@thaddeusthomas/updaterepositorylist",
+  "version": "1.0.0",
+  "description": "This github action queries your repositories and updates your landing page with the list of repositories. Additionally it update the page once a day by default.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": ["github", "gh-pages", "gh-actions", "landing-page"],
+  "author": "Thaddeus Thomas",
+  "license": "MIT",
+  "module": "commonjs",
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ]
+  },
+  "devDependencies": {
+    "@octokit/core": "^5.0.2",
+    "@types/node": "^20.11.0",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/preset-typescript": "^7.23.3",
+    "jest": "^29.7.0",
+    "typescript": "^5.3.3"
+  }
+}
