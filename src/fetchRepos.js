@@ -1,4 +1,5 @@
 "use strict";
+// fetchRepos.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,7 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateHTMLFile = exports.getRepositories = void 0;
 var core_1 = require("@octokit/core");
+var fs_1 = require("fs");
 function getRepositories(username) {
     return __awaiter(this, void 0, void 0, function () {
         var octokit, response, error_1;
@@ -62,18 +65,35 @@ function getRepositories(username) {
         });
     });
 }
+exports.getRepositories = getRepositories;
+function updateHTMLFile(htmlFilePath, htmlLinks) {
+    var htmlContent = (0, fs_1.readFileSync)(htmlFilePath, { encoding: 'utf8' });
+    var listStartTag = '<ul id="repo-list">';
+    var listEndTag = '</ul>';
+    var start = htmlContent.indexOf(listStartTag) + listStartTag.length;
+    var end = htmlContent.indexOf(listEndTag, start);
+    if (start === -1 || end === -1) {
+        console.error("Could not find the repository list section in the HTML file.");
+        return;
+    }
+    htmlContent = htmlContent.substring(0, start) + "\n" + htmlLinks + htmlContent.substring(end);
+    (0, fs_1.writeFileSync)(htmlFilePath, htmlContent, { encoding: 'utf8' });
+}
+exports.updateHTMLFile = updateHTMLFile;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var username, repositories, htmlLinks;
+        var username, htmlFilePath, repositories, htmlLinks;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    username = "thomasthaddeus";
+                    username = "your-username";
+                    htmlFilePath = "./path/to/your/index.html";
                     return [4 /*yield*/, getRepositories(username)];
                 case 1:
                     repositories = _a.sent();
                     htmlLinks = repositories.map(function (url) { return "<li><a href=\"".concat(url, "\">").concat(url.split('/').pop(), "</a></li>"); }).join('\n');
-                    console.log(htmlLinks);
+                    updateHTMLFile(htmlFilePath, htmlLinks);
+                    console.log("Updated the HTML file with the latest repository links.");
                     return [2 /*return*/];
             }
         });
