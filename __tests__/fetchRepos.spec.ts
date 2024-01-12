@@ -1,34 +1,22 @@
 import * as fs from 'fs';
-import { Octokit } from '@octokit/core';
+import { Octokit, RequestInterface } from '@octokit/core';
 import { getRepositories, updateHTMLFile, ensureFileExists } from '../src/fetchRepos';
 
 jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  readFileSync: jest.fn(),
-  writeFileSync: jest.fn(),
+  existsSync: jest.fn() as jest.MockedFunction<typeof fs.existsSync>,
+  readFileSync: jest.fn() as jest.MockedFunction<typeof fs.readFileSync>,
+  writeFileSync: jest.fn() as jest.MockedFunction<typeof fs.writeFileSync>,
 }));
 
-// Create a manual mock for @octokit/core
 jest.mock('@octokit/core', () => {
   return {
     Octokit: jest.fn().mockImplementation(() => {
-      return { request: jest.fn() };
+      return {
+        request: jest.fn() as jest.MockedFunction<RequestInterface<object>>
+      };
     })
   };
 });
-
-// fetchRepos.spec.ts
-jest.mock('@octokit/core', () => ({
-  Octokit: jest.fn().mockImplementation(() => ({
-    request: jest.fn().mockResolvedValue({
-      mockData: [
-        { html_url: typeof String('https://github.com/user/repo1') },
-        { html_url: typeof String('https://github.com/user/repo2') }
-      ]
-    })
-  }))
-}));
-
 
 describe('fetchRepos', () => {
   beforeEach(() => {
@@ -48,7 +36,7 @@ describe('fetchRepos', () => {
 
       // Set up the mock implementation
       const octokitInstance = new Octokit();
-      octokitInstance.request.mockResolvedValue(mockData);
+      octokitInstance.request(mockData);
 
       const repos = await getRepositories('user', mockToken);
       expect(repos).toEqual(['https://github.com/user/repo1', 'https://github.com/user/repo2']);
