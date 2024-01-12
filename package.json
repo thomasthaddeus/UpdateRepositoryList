@@ -4,7 +4,8 @@
   "description": "This github action queries your repositories and updates your landing page with the list of repositories. Additionally it update the page once a day by default.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "keywords": [
     "github",

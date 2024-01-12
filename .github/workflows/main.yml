@@ -29,10 +29,6 @@ jobs:
     - name: Run Script
       run: node dist/index.js # Replace with the path to your compiled JS file
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_USERNAME: thomasthaddeus # Replace with your GitHub username or use another secret
-
-    # - name: Run Script to Update Landing Page
-    #   run: ts-node fetchRepos.ts
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MY_GITHUB_USERNAME: ${{ secrets.MY_GITHUB_USERNAME }}
+        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        HTML_FILE_PATH: 'index.html'   # Set the path to the HTML file

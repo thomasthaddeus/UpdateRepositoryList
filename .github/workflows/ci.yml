@@ -1,4 +1,4 @@
-name: Workflow for Codecov example-typescript
+name: Codecov Typescript
 
 on: [push, pull_request]
 
@@ -22,6 +22,6 @@ jobs:
         run: npm run test
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4-beta
+        uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
