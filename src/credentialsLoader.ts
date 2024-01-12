@@ -25,3 +25,11 @@ function loadCredentials(): Credentials {
 }
 
 export default loadCredentials;
+
+export function mockReturnValue(arg0: { username: string; token: string; }) {
+    throw new Error('Function not implemented.');
+}
+
+export function mockImplementation(arg0: () => never) {
+    throw new Error('Function not implemented.');
+}
