@@ -1,0 +1,38 @@
+name: Update Landing Page
+
+on:
+  push:
+    branches: [ main ] # or any other branch
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight
+  workflow_dispatch:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Specify the Node.js version
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build TypeScript
+      run: npm run build # Make sure this script exists in package.json
+
+    - name: Run Script
+      run: node dist/index.js # Replace with the path to your compiled JS file
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USERNAME: thomasthaddeus # Replace with your GitHub username or use another secret
+
+    # - name: Run Script to Update Landing Page
+    #   run: ts-node fetchRepos.ts
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

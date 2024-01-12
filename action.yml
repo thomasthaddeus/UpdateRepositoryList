@@ -1,0 +1,16 @@
+name: 'Update Landing Page'
+description: 'Updates the landing page with the latest repository links'
+inputs:
+  username:
+    description: 'GitHub username for which to fetch repositories'
+    required: true
+  token:
+    description: 'GitHub token for authentication'
+    required: true
+outputs:
+  message:
+    description: 'A status message after execution'
+
+runs:
+  using: 'node20' # Specify the Node.js version
+  main: 'dist/index.js' # Path to your compiled JS file

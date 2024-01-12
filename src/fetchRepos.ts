@@ -1,13 +1,14 @@
 // fetchRepos.ts
 
+
 import { Octokit } from "@octokit/core";
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
 
 const templatesDir = join(__dirname, 'templates');
 
-export async function getRepositories(username: string): Promise<string[]> {
-  const octokit = new Octokit();
+export async function getRepositories(username: string, token: string): Promise<string[]> {
+  const octokit = new Octokit({ auth: token });
   try {
     const response = await octokit.request('GET /users/{username}/repos', {
       username: username
@@ -56,15 +57,3 @@ export function updateHTMLFile(htmlFilePath: string, htmlLinks: string) {
   htmlContent = htmlContent.substring(0, start) + "\n" + htmlLinks + htmlContent.substring(end);
   writeFileSync(htmlFilePath, htmlContent, { encoding: 'utf8' });
 }
-
-async function main() {
-  const username = "thomasthaddeus"; // Replace with the GitHub username
-  const htmlFilePath = "index.html"; // Path to your HTML file
-  const repositories = await getRepositories(username);
-  const htmlLinks = repositories.map(url => `<li><a href="${url}">${url.split('/').pop()}</a></li>`).join('\n');
-
-  updateHTMLFile(htmlFilePath, htmlLinks);
-  console.log("Updated the HTML file with the latest repository links.");
-}
-
-main();

@@ -36,5 +36,8 @@ node_modules
 
 typings/
 lib/*.js
-test/*.js
+__tests__/*.js
 *.map
+*.spec.js
+
+.env
