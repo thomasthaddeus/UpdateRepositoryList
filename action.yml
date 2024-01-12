@@ -1,5 +1,8 @@
 name: 'Update Landing Page'
 description: 'Updates the landing page with the latest repository links'
+branding:
+  icon:  'refresh-ccw'
+  color: 'blue'
 inputs:
   username:
     description: 'GitHub username for which to fetch repositories'

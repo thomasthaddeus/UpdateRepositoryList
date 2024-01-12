@@ -4,6 +4,7 @@ import { main } from '../src/index';
 import * as loadCredentials from '../src/credentialsLoader';
 import { getRepositories, updateHTMLFile } from '../src/fetchRepos';
 import { mocked } from 'jest-mock';
+import * as fs from 'fs';
 
 jest.mock('../src/credentialsLoader', () => ({
   __esModule: true, // This is required for default exports
