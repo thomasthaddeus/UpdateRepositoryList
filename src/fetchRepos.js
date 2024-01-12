@@ -37,9 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateHTMLFile = exports.getRepositories = void 0;
+exports.updateHTMLFile = exports.ensureFileExists = exports.getRepositories = void 0;
 var core_1 = require("@octokit/core");
 var fs_1 = require("fs");
+var path_1 = require("path");
+var templatesDir = (0, path_1.join)(__dirname, 'templates');
 function getRepositories(username) {
     return __awaiter(this, void 0, void 0, function () {
         var octokit, response, error_1;
@@ -66,16 +68,34 @@ function getRepositories(username) {
     });
 }
 exports.getRepositories = getRepositories;
+function ensureFileExists(filePath, templateFileName) {
+    if (!(0, fs_1.existsSync)(filePath)) {
+        var templatePath = (0, path_1.join)(templatesDir, templateFileName);
+        var content = (0, fs_1.readFileSync)(templatePath, { encoding: 'utf8' });
+        (0, fs_1.writeFileSync)(filePath, content, { encoding: 'utf8' });
+    }
+}
+exports.ensureFileExists = ensureFileExists;
+function ensureListSectionExists(htmlContent, listSectionTemplateFileName) {
+    var listStartTag = '<ul id="repo-list">';
+    var listEndTag = '</ul>';
+    var start = htmlContent.indexOf(listStartTag);
+    var end = htmlContent.indexOf(listEndTag, start);
+    if (start === -1 || end === -1) {
+        var listSectionTemplatePath = (0, path_1.join)(templatesDir, listSectionTemplateFileName);
+        var listSectionContent = (0, fs_1.readFileSync)(listSectionTemplatePath, { encoding: 'utf8' });
+        return htmlContent + listSectionContent;
+    }
+    return htmlContent;
+}
 function updateHTMLFile(htmlFilePath, htmlLinks) {
+    ensureFileExists(htmlFilePath, 'index.html');
     var htmlContent = (0, fs_1.readFileSync)(htmlFilePath, { encoding: 'utf8' });
+    htmlContent = ensureListSectionExists(htmlContent, 'listSection.html');
     var listStartTag = '<ul id="repo-list">';
     var listEndTag = '</ul>';
     var start = htmlContent.indexOf(listStartTag) + listStartTag.length;
     var end = htmlContent.indexOf(listEndTag, start);
-    if (start === -1 || end === -1) {
-        console.error("Could not find the repository list section in the HTML file.");
-        return;
-    }
     htmlContent = htmlContent.substring(0, start) + "\n" + htmlLinks + htmlContent.substring(end);
     (0, fs_1.writeFileSync)(htmlFilePath, htmlContent, { encoding: 'utf8' });
 }
@@ -86,8 +106,8 @@ function main() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    username = "your-username";
-                    htmlFilePath = "./path/to/your/index.html";
+                    username = "thomasthaddeus";
+                    htmlFilePath = "index.html";
                     return [4 /*yield*/, getRepositories(username)];
                 case 1:
                     repositories = _a.sent();

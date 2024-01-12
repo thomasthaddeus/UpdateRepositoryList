@@ -59,8 +59,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fetchRepos_1 = require("../src/fetchRepos");
 var fs = __importStar(require("fs"));
+var fetchRepos_1 = require("../src/fetchRepos");
+// Mock the entire fs module
+jest.mock('fs', function () { return ({
+    existsSync: jest.fn(),
+    readFileSync: jest.fn(),
+    writeFileSync: jest.fn(),
+}); });
+// Mock @octokit/core
 jest.mock('@octokit/core', function () { return ({
     Octokit: jest.fn().mockImplementation(function () { return ({
         request: jest.fn().mockResolvedValue({
@@ -71,7 +78,6 @@ jest.mock('@octokit/core', function () { return ({
         })
     }); })
 }); });
-jest.mock('fs');
 describe('fetchRepos', function () {
     describe('getRepositories', function () {
         it('should fetch repository URLs', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -96,6 +102,35 @@ describe('fetchRepos', function () {
             jest.spyOn(fs, 'writeFileSync');
             (0, fetchRepos_1.updateHTMLFile)(htmlFilePath, '<li><a href="https://github.com/user/repo1">repo1</a></li>\n<li><a href="https://github.com/user/repo2">repo2</a></li>');
             expect(fs.writeFileSync).toHaveBeenCalledWith(htmlFilePath, expectedUpdatedContent, { encoding: 'utf8' });
+        });
+    });
+    describe('ensureFileExists', function () {
+        var templatesDir = 'path/to/templates';
+        var htmlFilePath = 'path/to/index.html';
+        var templateFilePath = "".concat(templatesDir, "/index.html");
+        it('should create index.html from template if it does not exist', function () {
+            fs.existsSync.mockImplementation(function (path) {
+                if (path === htmlFilePath) {
+                    return false; // index.html does not exist
+                }
+                if (path === templatesDir) {
+                    return true; // templates directory exists
+                }
+                return false;
+            });
+            fs.readFileSync.mockReturnValue('<html></html>');
+            (0, fetchRepos_1.ensureFileExists)(htmlFilePath, 'index.html');
+            expect(fs.writeFileSync).toHaveBeenCalledWith(htmlFilePath, '<html></html>', { encoding: 'utf8' });
+        });
+        it('should return an error message if the templates directory does not exist', function () {
+            fs.existsSync.mockImplementation(function (path) {
+                if (path === templatesDir) {
+                    return false; // templates directory does not exist
+                }
+                return true;
+            });
+            var result = (0, fetchRepos_1.ensureFileExists)(htmlFilePath, 'index.html');
+            expect(result).toBe("The templates directory at ".concat(templatesDir, " does not exist. Please create it."));
         });
     });
 });
