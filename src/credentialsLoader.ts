@@ -10,8 +10,8 @@ interface Credentials {
 }
 
 function loadCredentials(): Credentials {
-    const username = process.env.GITHUB_USERNAME;
-    const token = process.env.GITHUB_TOKEN;
+    const username = process.env.MY_GITHUB_USERNAME;
+    const token = process.env.MY_GITHUB_TOKEN;
 
     if (!username) {
         throw new Error('GitHub username is not set in environment variables');
