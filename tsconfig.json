@@ -6,8 +6,7 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "outDir": "./dist",
-    "outFile": "main.js",
-    "declaration": true
+    "declaration": false
   },
   "include": ["src/**/*", "dist/*"],
   "exclude": ["node_modules", "__tests__"]
