@@ -6,7 +6,8 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "outDir": "./dist",
+    "declaration": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "__tests__", "dist"]
+  "include": ["src/**/*", "dist/*"],
+  "exclude": ["node_modules", "__tests__"]
 }
