@@ -1,6 +1,6 @@
 # Update Repository List GitHub Action
 
-[![Codecov](https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/ci.yml/badge.svg)](https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/ci.yml) [![Update Landing Page](https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/main.yml/badge.svg)](https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/main.yml)
+(https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/ci.yml) [![Update Landing Page](https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/main.yml/badge.svg)](https://github.com/thomasthaddeus/UpdateRepositoryList/actions/workflows/main.yml)
 
 This GitHub Action automatically queries your GitHub repositories and updates an HTML file (your landing page) with a list of these repositories. It's configurable to run on a schedule or in response to specific GitHub events.
 
