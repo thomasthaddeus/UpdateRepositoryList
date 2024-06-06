@@ -18,11 +18,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches
 
-      - name: Merge Dependabot PRs into dev
+      - name: Set up git user
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge Dependabot PRs into dev
+        run: |
+          git fetch origin
           git checkout dev
           git merge --no-ff ${{ github.event.pull_request.head.sha }}
           git push origin dev
