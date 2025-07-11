@@ -31,7 +31,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@octokit/core": "^6.1.2",
+    "@octokit/core": "^7.0.3",
     "dotenv": "^16.4.5"
   }
 }
