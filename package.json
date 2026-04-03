@@ -24,7 +24,7 @@
         "@types/node": "^25.5.0",
     "jest": "^30.3.0",
     "ts-jest": "^29.4.9",
-    "ts-loader": "^9.5.4",
+    "ts-loader": "^9.5.7",
     "typescript": "^6.0.2",
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.2"
