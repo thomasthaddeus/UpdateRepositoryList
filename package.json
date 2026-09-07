@@ -21,7 +21,7 @@
     "@babel/preset-env": "^8.0.2",
     "@types/jest": "^30.0.0",
         "babel-loader": "^10.1.1",
-        "@types/node": "^26.4.0",
+        "@types/node": "^26.4.1",
     "jest": "^30.5.0",
     "ts-jest": "^29.4.12",
     "ts-loader": "^9.6.2",
